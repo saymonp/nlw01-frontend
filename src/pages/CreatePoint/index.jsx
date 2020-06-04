@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { FiArrowDownLeft } from "react-icons/fi";
+import { Map, TileLayer, Marker } from "react-leaflet";
 
 import "./styles.css";
 
@@ -27,52 +28,107 @@ const CreatePoint = () => {
 
                     <div className="field">
                         <label htmlFor="name">Nome da Entidade</label>
-                        <input 
-                        type="text"
-                        name="name"
-                        id="name"
+                        <input
+                            type="text"
+                            name="name"
+                            id="name"
                         />
                     </div>
 
                     <div className="field-group">
-                    <div className="field">
-                        <label htmlFor="email">Email</label>
-                        <input 
-                        type="email"
-                        name="email"
-                        id="email"
-                        />
+                        <div className="field">
+                            <label htmlFor="email">Email</label>
+                            <input
+                                type="email"
+                                name="email"
+                                id="email"
+                            />
+                        </div>
+                        <div className="field">
+                            <label htmlFor="whatsapp">Whatsapp</label>
+                            <input
+                                type="text"
+                                name="whatsapp"
+                                id="whatsapp"
+                            />
+                        </div>
                     </div>
-                    <div className="field">
-                        <label htmlFor="whatsapp">Whatsapp</label>
-                        <input 
-                        type="text"
-                        name="whatsapp"
-                        id="whatsapp"
-                        />
-                    </div>
-                    </div>
-
-
                 </fieldset>
+
 
                 <fieldset>
                     <legend>
                         <h2>Endereço</h2>
-                        <span>Selecione o endereço</span>
+                        <span>Selecione o endereço no mapa</span>
                     </legend>
+
+                    <Map center={[49.2885584,-123.1126744]} zoom={17}>
+                        <TileLayer
+                            attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                        />
+                        <Marker position={[49.2885584,-123.1126744]}/>
+                    </Map>
+
+
+                    <div className="field-group">
+                        <div className="field">
+                            <label htmlFor="uf">
+                                Estado (UF)
+                            </label>
+                            <select name="uf" id="uf">
+                                <option value="0">Selecione uma UF</option>
+                            </select>
+                        </div>
+                        <div className="field">
+                            <label htmlFor="city">
+                                Cidade
+                            </label>
+                            <select name="city" id="city">
+                                <option value="0">Selecione uma cidade</option>
+                            </select>
+                        </div>
+                    </div>
                 </fieldset>
 
                 <fieldset>
                     <legend>
                         <h2>Items de coleta</h2>
+                        <span>Selecione um ou mais items abaixo</span>
                     </legend>
+                    <ul className="items-grid">
+                        <li>
+                            <img src="http://localhost:3333/uploads/oleo.svg" alt="..." />
+                            <span>Óleo de cozinha</span>
+                        </li>
+                        <li>
+                            <img src="http://localhost:3333/uploads/oleo.svg" alt="..." />
+                            <span>Óleo de cozinha</span>
+                        </li>
+                        <li>
+                            <img src="http://localhost:3333/uploads/oleo.svg" alt="..." />
+                            <span>Óleo de cozinha</span>
+                        </li>
+                        <li>
+                            <img src="http://localhost:3333/uploads/oleo.svg" alt="..." />
+                            <span>Óleo de cozinha</span>
+                        </li>
+                        <li>
+                            <img src="http://localhost:3333/uploads/oleo.svg" alt="..." />
+                            <span>Óleo de cozinha</span>
+                        </li>
+                        <li>
+                            <img src="http://localhost:3333/uploads/oleo.svg" alt="..." />
+                            <span>Óleo de cozinha</span>
+                        </li>
+                    </ul>
                 </fieldset>
+                <button type="submit">Cadastrar ponto de coleta</button>
             </form>
 
 
 
-            </div>
+        </div>
     );
 }
 

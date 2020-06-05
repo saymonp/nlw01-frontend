@@ -51,13 +51,13 @@ const CreatePoint = () => {
         if (selectedUf === "0") {
             return;
         }
-    }, [selectedUf]);
-
-    axios.get<IBGECityResponse[]>(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${selectedUf}/municipios`).then(response => {
+        axios.get<IBGECityResponse[]>(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${selectedUf}/municipios`).then(response => {
         const cityNames = response.data.map(city => city.nome);
 
         setCities(cityNames);
     })
+    }, [selectedUf]);
+
 
 
 function handleSelectUf(event: ChangeEvent<HTMLSelectElement>) {

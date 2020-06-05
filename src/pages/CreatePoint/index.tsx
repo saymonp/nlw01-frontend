@@ -2,6 +2,7 @@ import React, { useEffect, useState, ChangeEvent } from "react";
 import { Link } from "react-router-dom";
 import { FiArrowDownLeft } from "react-icons/fi";
 import { Map, TileLayer, Marker } from "react-leaflet";
+import { LeafletMouseEvent } from "leaflet";
 import axios from "axios";
 import api from "../../services/api";
 
@@ -30,8 +31,17 @@ const CreatePoint = () => {
     const [items, setItems] = useState<Item[]>([]);
     const [ufs, setUfs] = useState<string[]>([]);
     const [cities, setCities] = useState<string[]>([]);
-
     const [selectedUf, setSelectedUf] = useState("0");
+    const [selectedPosition, setSelectedPosition] = useState<[number, number]>([0, 0]);
+    const [initialPosition, setInitialPosition] = useState<[number, number]>([0, 0]);
+
+    useEffect(() => {
+        navigator.geolocation.getCurrentPosition(position => {
+            const { latitude, longitude } = position.coords;
+
+            setInitialPosition([latitude, longitude]);
+        });
+    }, []);
 
     useEffect(() => {
         api.get("items").then(response => {
@@ -63,6 +73,13 @@ const CreatePoint = () => {
 function handleSelectUf(event: ChangeEvent<HTMLSelectElement>) {
     const uf = event.target.value;
     setSelectedUf(uf);
+}
+
+function handleMapClick(event: LeafletMouseEvent) {
+    setSelectedPosition([
+        event.latlng.lat, 
+        event.latlng.lng,
+    ])
 }
 
 
@@ -121,12 +138,12 @@ return (
                     <span>Selecione o endereço no mapa</span>
                 </legend>
 
-                <Map center={[49.2885584, -123.1126744]} zoom={17}>
+                <Map center={initialPosition} zoom={17} onClick={handleMapClick}>
                     <TileLayer
                         attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     />
-                    <Marker position={[49.2885584, -123.1126744]} />
+                    <Marker position={selectedPosition} />
                 </Map>
 
 
